@@ -24,7 +24,7 @@ void Composite::traverse() {
     for (int i = 0; i < children.size(); i++) {
         // 5. Use polymorphism to delegate to children
         //if (!isJump)
-            std::cout<<std::endl <<" -- composite: "<< i ;
+            //std::cout<<std::endl <<" -- composite: "<< i ;
         children[i]->traverse();
     }
 }
@@ -38,6 +38,7 @@ void Composite::clean() {
         else 
             c->clean();
     }
+	children.clear();
 }
 
 void Composite::traverseSet(std::vector < Component * > &leafList) {

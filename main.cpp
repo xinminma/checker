@@ -70,15 +70,30 @@ int main () {
     playingboard.printBoard();
 
     //doTestNextMove(playingboard);
+	//return 0;
     //playingboard.printPiece();
     P1NextBoards p1(playingboard);
-    p1.doMoveP1();
-    std::cout<<"*** all possible boards: " <<p1.size()<<" ***"<<std::endl;
-    for(int i=0; i<p1.size(); ++i) {
-        GameBoard *gb = p1.getBoard(i);
-        gb->printBoard();
-    }
 
+	for (int k = 0; k < playingboard.number_P1_pieces; ++k) {
+		std::cout <<std::endl<< "*** piece " << k << " starts ***" << std::endl;
+		p1.doMoveP1(k);
+		std::cout << "*** all possible boards: " << p1.size() << " ***" << std::endl;
+		for (int i = 0; i < p1.size(); ++i) {
+			GameBoard *gb = p1.getBoard(i);
+			gb->printBoard();
+		}
+		std::cout << "*** piece " << k << " is complete ***" << std::endl;
+		/*
+		for (int i = 0; i < p1.size(); ++i) {
+			GameBoard *pgb = new GameBoard(playingboard);
+			NextSteps *ns = p1.getNextSteps(i);
+			for (int j = 0; j < ns->steps.size(); ++j) {
+				Step t = ns->steps[j];
+				pgb->doMove(t.start, t.end);
+			}
+		}
+		*/
+	}
     return 0;
 
 }

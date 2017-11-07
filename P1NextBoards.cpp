@@ -45,22 +45,29 @@ bool P1NextBoards::isLoop(int startXY, int s[], int e[]) {
     return true;
 }
 
-void P1NextBoards::doMoveP1() {
+void P1NextBoards::doMoveP1(int index) {
+	clean();
+
     Player1 p1(originalBoard);
+	//p1.createAllMoves();
 
     //p1.createAllBoards();
     //p1.printMoves();
+
+	//std::cout << std::endl << " -------------------------- " << std::endl;
     std::vector < Component * > leafList;
 
-    for(int i=0; i<p1.parent.number_P1_pieces; ++i) {
-        Composite *c = p1.getOneJumpMoveList(i);
-        //std::cout<< " *** " <<i<< " *** "<<std::endl;
+    //for(int i=0; i<p1.parent.number_P1_pieces; ++i) {
+        Composite *c = p1.getOneJumpMoveList(index);
+        //std::cout<<std::endl<< " ****************************** " <<index<< " ********************************** "<<std::endl;
         //c->traverse();
         c->traverseSet(leafList);
-    }
+    //}
 
     int l = leafList.size();
-    //std::cout<<std::endl <<l<<std::endl;
+    std::cout<<"Leaf size: "<<l<<std::endl;
+	if (l == 0) return;
+
     //XY startXY;
     int startXY;
 //
@@ -79,16 +86,16 @@ void P1NextBoards::doMoveP1() {
             std::cout<<"Null leaf"<<std::endl;
     }
 
-    std::cout<< "------------------"<<std::endl;
     XY sxy(startXY);
     std::cout<< "start:"<<sxy.toString()<<std::endl;
+	std::cout << "------------------" << std::endl;
 
     for(int i=0; i<256; ++i) {
         int idx = eList[i];
         if(idx > 0) {
             sList[idx] = i;
-            XY s(i), e(idx);
-            std::cout<<s.toString()<<": "<< e.toString() <<std::endl;
+            XY s(idx), e(i);
+            //std::cout<<s.toString()<<": "<< e.toString() <<std::endl;
         }
     }
 
@@ -98,7 +105,7 @@ void P1NextBoards::doMoveP1() {
         if(eList[i] == 0) continue;
 
         if(sList[i] > 0) continue; //it's a middle node
-        std::cout<< "without Loop: "<<i << std::endl;
+        //std::cout<< "without Loop: "<<i << std::endl;
         NextSteps *ns = new NextSteps();
         setNewGameBoard(i, startXY, eList, *ns);
         //add(new GameBoard(oneGb));
@@ -111,7 +118,7 @@ void P1NextBoards::doMoveP1() {
 // create boards with loop
     //GameBoard oneGb(gb);
 
-    std::cout<< "ns_Loop: " << std::endl;
+    //std::cout<< "ns_Loop: " << std::endl;
     NextSteps ns_loop;
     bool isTheLoop = false;
      for(int i=0; i<256; ++i) {
@@ -119,7 +126,7 @@ void P1NextBoards::doMoveP1() {
 
          if(i == startXY && isLoop(startXY, sList, eList)) {
              isTheLoop = true;
-             std::cout<< "in isLoop: " << i<<std::endl;
+             //std::cout<< "in isLoop: " << i<<std::endl;
              setNewLoopGameBoard(i, startXY, eList, ns_loop);
              //oneGb.printBoard();
          } 

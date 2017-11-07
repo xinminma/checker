@@ -43,11 +43,15 @@ public:
     ~P1NextBoards() {
         //delete[] nextSteps;
     }
-    void doMoveP1();
+    void doMoveP1(int index); //index is the piece location
     int size() { return numberOfMoves; }
     NextSteps *getNextSteps(int i) { return nextSteps[i]; }
 
     GameBoard *getBoard(int i);
+	void clean() {
+		//delete[] nextSteps;
+		numberOfMoves = 0;
+	}
 };
 
 
