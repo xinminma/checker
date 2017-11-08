@@ -2,7 +2,10 @@
 // Created by New on 11/4/2017.
 //
 #include <iostream>
+
 #include "GameBoard.h"
+#include "ListToTree.h"
+
 
 void GameBoard::setBoard(unsigned char myboard[][8]) {
     for(int i=0; i<8; ++i) {
@@ -275,10 +278,32 @@ void GameBoard::printAllP1Moves() {
     }
 }*/
 
+
 void GameBoard::printP1MoveList() {
 	std::cout << "listOfMoves size: " << listOfMoves.size() << std::endl;
 	for (int i = 0; i < listOfMoves.size(); i++) {
 		std::cout << "====================" << std::endl;
 		listOfMoves[i]->print();
+		std::cout <<std::endl<< "\n\n====================  NEW =====================" << std::endl;
+		PieceSteps *ps = listOfMoves[i];
+		for (int j = 0; j<ps->numberOfMoves; ++j) {
+			Steps *t = ps->steps[j];
+			
+			//std::cout << std::endl << "\n move #: " << j << std::endl;
+			//t->print();
+			//std::cout << std::endl << "old print is complete \n" << std::endl;
+
+			ListToTree ltt(*t);
+			ltt.setTree();
+			int sz = ltt._TheResultList.size();
+			std::cout << std::endl << "transformed tree size: " << sz << std::endl;
+			for (int k = 0; k < sz; ++k){
+				std::cout << std::endl << "tree #: " << k << std::endl;
+				Steps *ss = ltt._TheResultList[k];
+				ss->print();
+			}
+			
+		}
+
 	}
 }
