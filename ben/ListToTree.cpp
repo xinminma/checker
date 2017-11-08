@@ -111,6 +111,7 @@ void ListToTree::setTree(){
 		int loop_first_node = loop_start.end.toInt();
 		//std::cout << "loop_start:" << loop_start.start.toString() << ", " << loop_start.end.toString() << "; end as int: " << loop_first_node << std::endl;
 
+		bool onlyLoop = true;
 		for (int i = 0; i < 256; ++i) {
 			if (eList[i] == 0) continue;
 			if (sList[i] > 0) continue; //it's a middle node
@@ -121,9 +122,15 @@ void ListToTree::setTree(){
 			bool repeat_loop = setNewMoveListAfterLoop(i, startXY, eList, *tns, loop_first_node);
 			//std::cout<<"**** after Loop *** "<<std::endl;
 			//tns->print();
-			if (repeat_loop)
+			if (repeat_loop) {
+				onlyLoop = false;
 				_TheResultList.push_back(tns);
+			}
 
+		}
+		if(onlyLoop) {
+			Steps *tns = new Steps(ns_loop);
+			_TheResultList.push_back(tns);
 		}
 
 	}
